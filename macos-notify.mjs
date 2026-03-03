@@ -138,16 +138,25 @@ function shouldNotify(hookEvent, payload, config) {
 
   const turnState = loadTurnState();
 
-  // 场景 1: 任务完成（turn-complete 事件）
-  if (hookEvent === 'turn-complete') {
-    // 检查这一轮是否有错误或等待输入
-    if (!turnState.hasError && !turnState.hasWaitingForInput && turnState.toolCount > 0) {
+  // 场景 1: 对话回合结束（Stop 事件）
+  // 这个事件在 Claude 完成回复、等待用户输入时触发
+  if (hookEvent === 'Stop') {
+    // 如果这一轮没有等待输入（没有 AskUserQuestion/ExitPlanMode/PermissionRequest）
+    // 说明是正常完成，发送通知
+    if (!turnState.hasWaitingForInput) {
+      const hasWork = turnState.toolCount > 0;
+      const message = hasWork
+        ? '任务已完成，可以开始下一步'
+        : '回答完成';
+
       resetTurnState();
       return {
         type: 'taskComplete',
-        message: '任务已完成，可以开始下一步'
+        message: message
       };
     }
+
+    // 如果有等待输入，重置状态但不发送通知（因为已经在 PreToolUse 中发送过了）
     resetTurnState();
     return null;
   }
@@ -202,7 +211,7 @@ function shouldNotify(hookEvent, payload, config) {
     }
   }
 
-  // 场景 3: 任务中断 - 权限请求
+  // 场景 4: 任务中断 - 权限请求
   if (hookEvent === 'PermissionRequest') {
     turnState.hasWaitingForInput = true;
     saveTurnState(turnState);
