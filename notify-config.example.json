@@ -1,0 +1,28 @@
+{
+  "enabled": true,
+  "iconPath": "~/Pictures/claude.icon.png",
+  "notifications": {
+    "taskComplete": {
+      "enabled": true,
+      "title": "Claude Code",
+      "subtitle": "任务完成 ✅",
+      "sound": "Hero"
+    },
+    "taskError": {
+      "enabled": true,
+      "title": "Claude Code",
+      "subtitle": "任务失败 ❌",
+      "sound": "Basso"
+    },
+    "waitingForInput": {
+      "enabled": true,
+      "title": "Claude Code",
+      "subtitle": "等待您的输入 ⏸️",
+      "sound": "default"
+    }
+  },
+  "debounce": {
+    "enabled": true,
+    "intervalSeconds": 5
+  }
+}

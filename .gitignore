@@ -1,0 +1,6 @@
+.DS_Store
+node_modules/
+*.log
+.notify-turn-state.json
+.notify-debounce.json
+notify-config.json
