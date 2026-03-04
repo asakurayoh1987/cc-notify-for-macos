@@ -209,6 +209,13 @@ function shouldNotify(hookEvent, payload, config) {
         message: '计划已完成，等待您审批'
       };
     }
+
+    // 对于其他工具，如果之前有 waitingForInput 状态，说明用户已经回复了
+    // 重置 waitingForInput 状态，开始新的一轮任务
+    if (turnState.hasWaitingForInput) {
+      turnState.hasWaitingForInput = false;
+      saveTurnState(turnState);
+    }
   }
 
   // 场景 4: 任务中断 - 权限请求
