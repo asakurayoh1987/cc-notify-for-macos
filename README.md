@@ -128,6 +128,16 @@ cp notify-config.example.json ~/.claude/hooks/notify-config.json
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/macos-notify.mjs"
+          }
+        ]
+      }
     ]
   }
 }
