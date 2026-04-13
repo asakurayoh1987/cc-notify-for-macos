@@ -254,6 +254,8 @@ Hook 通过状态文件跟踪当前 turn 的执行状态:
   - `hasWaitingForInput`: 是否等待输入
   - `toolCount`: 工具执行次数
 
+> **错误检测说明**：错误通知仅在工具执行返回 `isError: true` 时触发，这是 Claude Code 的正式错误信令契约。当 Claude 使用 `Agent` 工具调度 subagent 时，subagent 的输出文本（即使提及 "error"、"failed" 等词汇）不会误触发错误通知。
+
 - `~/.claude/hooks/.notify-debounce.json` - 防抖状态
   - 记录每种通知类型的最后发送时间
 

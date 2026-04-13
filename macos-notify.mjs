@@ -169,12 +169,9 @@ function shouldNotify(hookEvent, payload, config) {
     const response = payload.tool_response;
     const toolName = payload.tool_name;
 
-    // 检测错误
-    const hasError = response?.isError === true ||
-                     (response?.content &&
-                      Array.isArray(response.content) &&
-                      response.content.some(item => item.type === 'text' &&
-                                                   /error|failed|exception/i.test(item.text)));
+    // 检测错误：仅使用 isError: true 作为工具失败的判断依据
+    // 不使用文本正则检测，避免 subagent 输出中正常提及 "error"/"failed" 等词汇时误报
+    const hasError = response?.isError === true;
 
     if (hasError) {
       turnState.hasError = true;
